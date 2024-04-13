@@ -1,4 +1,5 @@
 # Python In-built packages
+import subprocess
 from pathlib import Path
 import PIL
 
@@ -105,6 +106,18 @@ elif source_radio == settings.RTSP:
 
 elif source_radio == settings.YOUTUBE:
     helper.play_youtube_video(confidence, model)
+
+elif source_radio == "List Video Devices":
+    st.header("List of Video Devices")
+    try:
+        # Run the command to list video devices
+        result = subprocess.run(['ls', '/dev/video*'], capture_output=True, text=True)
+        output = result.stdout
+
+        # Display the output in a code block
+        st.code(output)
+    except Exception as ex:
+        st.error(f"Error listing video devices: {ex}")
 
 else:
     st.error("Please select a valid source type!")
